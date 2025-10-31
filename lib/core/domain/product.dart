@@ -1,6 +1,16 @@
+// To parse this JSON data, do
+//
+//     final product = productFromJson(jsonString);
+
+import 'dart:convert';
+
 import 'package:product_catalog/core/domain/rating.dart';
 
-class Products {
+List<Product> productFromJson(String str) => List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+
+String productToJson(List<Product> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class Product {
     int id;
     String title;
     double price;
@@ -9,7 +19,7 @@ class Products {
     String image;
     Rating rating;
 
-    Products({
+    Product({
         required this.id,
         required this.title,
         required this.price,
@@ -19,4 +29,23 @@ class Products {
         required this.rating,
     });
 
+    factory Product.fromJson(Map<String, dynamic> json) => Product(
+        id: json["id"],
+        title: json["title"],
+        price: json["price"]?.toDouble(),
+        description: json["description"],
+        category: json["category"],
+        image: json["image"],
+        rating: Rating.fromJson(json["rating"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "price": price,
+        "description": description,
+        "category": category,
+        "image": image,
+        "rating": rating.toJson(),
+    };
 }
