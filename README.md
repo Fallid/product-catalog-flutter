@@ -43,8 +43,8 @@ Aplikasi ini dibangun menggunakan **Clean Architecture** dengan pendekatan **Fea
 | **card_loading** | ^0.3.2 | 
 
 ### Development Tools
-| Package | Version | Fungsi |
-|---------|---------|--------|
+| Package | Version | 
+|---------|---------|
 | **flutter_lints** | ^5.0.0 | 
 | **custom_lint** | ^0.8.0 | 
 | **riverpod_lint** | ^3.0.3 | 
