@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:product_catalog/core/domain/product.dart';
 import 'package:product_catalog/core/domain/rating.dart';
 import 'package:product_catalog/core/utils/dimension/screen_dimension.dart';
+import 'package:product_catalog/features/cart/application/cart_provider.dart';
+import 'package:product_catalog/features/cart/presentation/cart_screen.dart';
 import 'package:product_catalog/features/products/presentation/product_detail_screen.dart';
 import 'package:product_catalog/features/products/presentation/product_search_screen.dart';
 import 'package:product_catalog/features/products/application/product_list_provider.dart';
@@ -17,6 +19,8 @@ class ProductListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsAsync = ref.watch(productListProvider);
+    final cartCount = ref.watch(cartCountProvider);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Product Catalog', style: TextStyle(fontSize: 20.sp)),
@@ -32,9 +36,45 @@ class ProductListScreen extends ConsumerWidget {
             },
             icon: Icon(Icons.search_outlined, size: 24.r),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.shopping_bag_outlined, size: 24.r),
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.shopping_bag_outlined, size: 24.r),
+              ),
+              if (cartCount > 0)
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    padding: EdgeInsets.all(4.r),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    constraints: BoxConstraints(
+                      minWidth: 16.r,
+                      minHeight: 16.r,
+                    ),
+                    child: Text(
+                      '$cartCount',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
           ),
         ],
       ),
